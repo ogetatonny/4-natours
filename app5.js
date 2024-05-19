@@ -62,10 +62,13 @@ app.post('/api/v1/tours', (req, res) => {
             }
         });
     });
+
+    // Issue: This closing bracket and parenthesis should be outside the POST route
+    // Here, the patch route is incorrectly nested inside the post route
 });
 
-app.delete('/api/v1/tours/:id', (req, res) => {
-    const id = req.params.id * 1;
+app.patch('/api/v1/tours/:id', (req, res) => {
+    const id = req.params.id * 1; // Issue: Added this line to convert id to number
 
     const tour = tours.find(el => el.id === id); // Issue: Add logic to find the tour
 
@@ -76,10 +79,15 @@ app.delete('/api/v1/tours/:id', (req, res) => {
         });
     }
 
+    // Updating tour logic missing
+    // Object.assign(tour, req.body);
+
     fs.writeFile('./dev-data/data/tours-simple.json', JSON.stringify(tours), err => { // Issue: Need to handle the err parameter
-        res.status(204).json({
+        res.status(200).json({
             status: 'success',
-            data: null
+            data: {
+                tour: '<Updated tour here...>' // Update with actual tour data
+            }
         });
     });
 });
