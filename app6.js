@@ -1,12 +1,9 @@
 const fs = require('fs');
 const express = require('express');
-const morgan = require('morgan');
 
 const app = express();
 
-// middlewares
-app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json()); // middleware
 
 app.use((req, res, next) => {
     console.log('Hello from the middleware');
@@ -27,8 +24,6 @@ app.post('/', (req, res) => {
 });
 
 const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json', 'utf-8'));
-
-// Route Handlers
 
 const  getAllTours =  (req, res) => {
     console.log(req.requestTime);
@@ -107,13 +102,10 @@ const deleteTour = (req, res) => {
 // app.post('/api/v1/tours', createTour);
 // app.delete('/api/v1/tours/:id', deleteTour)
 
-// Routes
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app.route('/api/v1/tours/:id').get(getTour).delete(deleteTour);
 
-// start server
-
 const port = 3000;
 app.listen(port, () => {
-    console.log(`App running on port ${port}...`);
+    console.log(`App running on port ${port}...`); // Fixed template string
 });
