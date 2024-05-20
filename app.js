@@ -5,6 +5,16 @@ const app = express();
 
 app.use(express.json()); // middleware
 
+app.use((req, res, next) => {
+    console.log('Hello from the middleware');
+    next();
+});
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+})
+
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello from the server side!', app: 'Natours' });
 });
@@ -16,8 +26,11 @@ app.post('/', (req, res) => {
 const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json', 'utf-8'));
 
 const  getAllTours =  (req, res) => {
+    console.log(req.requestTime);
+
     res.status(200).json({
         status: 'success',
+        requestedAt: req.requestTime,
         results: tours.length,
         data: {
             tours
