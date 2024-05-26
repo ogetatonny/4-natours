@@ -10,13 +10,13 @@ const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSW
 mongoose.connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFndAndModify: false
+    useFindAndModify: false
 }).then(con => {
     console.log(con.connections);
     console.log('DB connection successful');
 });
 
-const tourschema = new mongoose.Schema({
+const tourSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'A tour must have a name'],
@@ -32,6 +32,18 @@ const tourschema = new mongoose.Schema({
     }
 });
 const Tour = mongoose.model('Tour', tourSchema);
+
+const testTour = new Tour({
+    name: 'The Park Camper',
+    price: 997
+});
+
+testTour.save().then(dec =>{
+    console.log(doc);
+}).catch(err => {
+    console.log('ERROR:', err)
+});
+
 // Start server
 const port = 3000;
 app.listen(port, () => {
