@@ -24,17 +24,18 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-
 const importData = async () => {
     try {
         await Tour.create(tours);
-        console.log('Data successfully loaded!')
+        console.log('Data successfully loaded!');
     } catch (err) {
         console.log(err);
     }
+    process.exit();
 };
 
 // DELETE ALL DATA FROM COLLECTION
 const deleteData = async () => {
     try {
         await Tour.deleteMany();
-        console.log('Data successfully deleted!')
+        console.log('Data successfully deleted!');
     } catch (err) {
         console.log(err);
     }
